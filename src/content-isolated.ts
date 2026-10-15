@@ -69,8 +69,9 @@ function render() {
   if (!status) return
   button ??= createOverlay()
 
-  button.setAttribute('data-ready', String(status === 'ready'))
-  button.setAttribute('data-unsupported', String(status === 'unsupported'))
+  button.classList.toggle('ready', status === 'ready')
+  button.classList.toggle('unsupported', status === 'unsupported')
+  button.classList.toggle('enabled', config.enabled)
 
   if (status === 'unsupported') {
     button.textContent = 'CSS: unsupported'
@@ -91,6 +92,18 @@ function createOverlay() {
   const shadow = host.attachShadow({ mode: 'closed' })
   const style = document.createElement('style')
   style.textContent = `
+    :host {
+      --neutral-600: #535454;
+      --neutral-700: #383939;
+      --neutral-800: #202121;
+      --danger-600: #ac0000;
+      --danger-700: #810000;
+      --danger-800: #550000;
+      --success-600: #026800;
+      --success-700: #004a00;
+      --success-800: #002c00;
+    }
+
     button {
       position: fixed;
       right: 0;
@@ -98,18 +111,26 @@ function createOverlay() {
       z-index: 2147483647;
       padding: 6px 12px;
       border: 0;
-      background: #202121;
+      background: var(--neutral-800);
       color: #fff;
       font: 500 12px/16px system-ui, sans-serif;
       opacity: 0.8;
       cursor: pointer;
     }
+
     button:hover,
     button:focus-visible {
       opacity: 1;
     }
-    button[data-supported="false"] {
-      color: #f00;
+
+    button.unsupported {
+      color: var(--danger-800);
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    button.enabled:not(.unsupported) {
+      background: var(--success-700);
     }
   `
   const el = document.createElement('button')
