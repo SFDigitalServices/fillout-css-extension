@@ -3,7 +3,9 @@
   "name": "SF.gov Fillout CSS",
   "description": "Swap the custom CSS of SF.gov Fillout forms with a bundled, local, or remote stylesheet.",
   "minimum_chrome_version": "111",
-  "permissions": ["storage"],
+  "permissions": [
+    "storage"
+  ],
   "optional_host_permissions": [
     "https://*/*",
     "http://localhost/*",
@@ -22,7 +24,9 @@
         "https://digital.forms.sf.gov/*",
         "https://forms.fillout.com/*"
       ],
-      "js": ["content-main.js"],
+      "js": [
+        "content-main.js"
+      ],
       "world": "MAIN",
       "run_at": "document_start",
       "all_frames": true
@@ -32,7 +36,9 @@
         "https://digital.forms.sf.gov/*",
         "https://forms.fillout.com/*"
       ],
-      "js": ["content-isolated.js"],
+      "js": [
+        "content-isolated.js"
+      ],
       "run_at": "document_start",
       "all_frames": true
     }

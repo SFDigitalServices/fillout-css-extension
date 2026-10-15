@@ -69,16 +69,19 @@ function render() {
   if (!status) return
   button ??= createOverlay()
 
+  button.setAttribute('data-ready', String(status === 'ready'))
+  button.setAttribute('data-unsupported', String(status === 'unsupported'))
+
   if (status === 'unsupported') {
-    button.textContent = 'SF CSS: unsupported'
+    button.textContent = 'CSS: unsupported'
     button.title = 'Could not find the Fillout theme store; this Fillout build may have changed.'
   }
   else if (cssError) {
-    button.textContent = 'SF CSS: error'
+    button.textContent = 'CSS: error'
     button.title = `${cssError}\n\nClick to toggle; see the extension options to fix the CSS source.`
   }
   else {
-    button.textContent = `SF CSS: ${config.enabled ? 'custom' : 'default'}`
+    button.textContent = `CSS: ${config.enabled ? 'custom' : 'default'}`
     button.title = 'Toggle between custom and default CSS for this tab'
   }
 }
@@ -90,19 +93,24 @@ function createOverlay() {
   style.textContent = `
     button {
       position: fixed;
-      right: 12px;
-      top: 12px;
+      right: 0;
+      top: 0;
       z-index: 2147483647;
       padding: 6px 12px;
       border: 0;
-      border-radius: 16px;
       background: #202121;
       color: #fff;
       font: 500 12px/16px system-ui, sans-serif;
       opacity: 0.8;
       cursor: pointer;
     }
-    button:hover, button:focus-visible { opacity: 1; }
+    button:hover,
+    button:focus-visible {
+      opacity: 1;
+    }
+    button[data-supported="false"] {
+      color: #f00;
+    }
   `
   const el = document.createElement('button')
   el.type = 'button'
