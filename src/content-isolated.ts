@@ -12,7 +12,7 @@ import {
   type TabMessage,
 } from './shared/protocol'
 
-const config: Config = { css: null, enabled: true }
+const config: Config = { css: null, enabled: false }
 let cssError: string | undefined
 let status: MainStatus | undefined
 let button: HTMLButtonElement | undefined
