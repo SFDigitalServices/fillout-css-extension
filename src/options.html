@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SF.gov Fillout CSS</title>
+  <style>
+    body { font: 14px/20px system-ui, sans-serif; max-width: 720px; margin: 32px auto; padding: 0 16px; }
+    fieldset { border: 0; padding: 0; margin: 0; }
+    .option { display: flex; align-items: center; gap: 8px; margin: 12px 0; }
+    .option input[type="text"], .option input[type="url"] { flex: 1; padding: 4px 6px; }
+    .warning { color: #ac0000; margin: 0 0 12px 24px; }
+    #status.error { color: #ac0000; }
+    button { padding: 6px 16px; }
+  </style>
+</head>
+<body>
+  <h1>SF.gov Fillout CSS</h1>
+  <form id="form">
+    <h2 id="source-heading">CSS source</h2>
+    <fieldset aria-labelledby="source-heading">
+      <label class="option">
+        <input type="radio" name="source" value="bundled">
+        <span id="bundled-label">Bundled CSS</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="source" value="local">
+        <span>Local CSS:</span>
+        <input type="text" id="local-path" placeholder="/Users/you/work/forms/fillout/theme-sfgov.css" spellcheck="false">
+      </label>
+      <p id="file-warning" class="warning" hidden>
+        Enable "Allow access to file URLs" for this extension on chrome://extensions to use a local file.
+      </p>
+      <label class="option">
+        <input type="radio" name="source" value="url">
+        <span>URL:</span>
+        <input type="url" id="css-url" placeholder="https://example.com/theme.css" spellcheck="false">
+      </label>
+    </fieldset>
+    <p>
+      <button type="submit">Save</button>
+      <span id="status" role="status"></span>
+    </p>
+  </form>
+  <script src="options.js"></script>
+</body>
+</html>
