@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "SF.gov Fillout CSS",
-  "description": "Swap the custom CSS of SF.gov Fillout forms with a bundled, local, or remote stylesheet.",
+  "name": "Fillout CSS",
+  "description": "Swap the custom CSS of Fillout forms with a bundled, local, or remote stylesheet.",
   "minimum_chrome_version": "111",
   "permissions": [
     "storage"
