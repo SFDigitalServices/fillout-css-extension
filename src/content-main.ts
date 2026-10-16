@@ -43,7 +43,7 @@ const timer = setInterval(() => {
   else if (Date.now() - startedAt > GIVE_UP_AFTER_MS) {
     clearInterval(timer)
     if (document.getElementById('__next')) {
-      console.error('[sfgov-fillout] could not find the Fillout Redux store; this Fillout build may be unsupported')
+      console.error('[fillout-css] could not find the Fillout Redux store; this Fillout build may be unsupported')
       reportStatus('unsupported')
     }
   }

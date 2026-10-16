@@ -4,12 +4,15 @@ export type Settings = {
   source: CssSource
   localPath: string
   url: string
+  /** Only applies when `source` is `local`. */
+  liveReload: boolean
 }
 
 const DEFAULT_SETTINGS: Settings = {
   source: 'bundled',
   localPath: '',
   url: '',
+  liveReload: false,
 }
 
 export async function loadSettings(): Promise<Settings> {

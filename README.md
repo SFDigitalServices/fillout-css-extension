@@ -1,8 +1,8 @@
-# SF.gov Fillout CSS extension
+# Fillout CSS extension
 
-A Chrome extension (Manifest V3) that hot-swaps the custom CSS of SF.gov Fillout
-forms with a stylesheet from one of three sources, so you can test CSS without
-editing the Fillout theme. It runs in every frame on `digital.forms.sf.gov` and
+A Chrome extension (Manifest V3) that hot-swaps the custom CSS of Fillout forms
+with a stylesheet from one of three sources, so you can test CSS without editing
+the Fillout theme. It runs in every frame on `digital.forms.sf.gov` and
 `forms.fillout.com`, including forms embedded on sf.gov in an iframe.
 
 ## Install
@@ -28,7 +28,10 @@ Open the extension's **Options** to choose the **CSS source**:
 - **URL**: an `https://` URL (or `http://localhost`). Saving prompts you to allow
   the extension to fetch from that host.
 
-The CSS is loaded when the page loads; reload the form to pick up changes.
+The CSS is loaded when the page loads. For **Local CSS**, tick **Live reload when
+the file changes** to re-read the file about once a second and apply edits without
+reloading the form. Polling pauses while the tab is hidden or the toggle is on
+"default". Saving the options applies to open forms without a reload.
 
 ## Toggle
 

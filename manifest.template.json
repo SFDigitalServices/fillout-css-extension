@@ -3,6 +3,11 @@
   "name": "Fillout CSS",
   "description": "Swap the custom CSS of Fillout forms with a bundled, local, or remote stylesheet.",
   "minimum_chrome_version": "111",
+  "icons": {
+    "16": "icons/16.png",
+    "32": "icons/32.png",
+    "48": "icons/48.png"
+  },
   "permissions": [
     "storage"
   ],

@@ -78,7 +78,10 @@ async function fetchCss(): Promise<CssResponse> {
   if (!response.ok) {
     throw new Error(`Failed to load ${url}: ${response.status} ${response.statusText}`)
   }
-  return { css: await response.text() }
+  return {
+    css: await response.text(),
+    liveReload: settings.source === 'local' && settings.liveReload
+  }
 }
 
 function errorMessage(error: unknown) {
