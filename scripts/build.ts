@@ -1,7 +1,7 @@
 #!/usr/bin/env -S npx tsx
 import { build } from 'esbuild'
 import { execFileSync } from 'node:child_process'
-import { copyFile, mkdir, readFile, rm, writeFile } from 'node:fs/promises'
+import { copyFile, cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { join, relative } from 'node:path'
 import type { BuildInfo } from '../src/shared/build-info'
 
@@ -44,6 +44,7 @@ async function main() {
 
   await copyFile(join(EXTENSION_DIR, 'src/options.html'), join(DIST_DIR, 'options.html'))
   await copyFile(CSS_FILE, join(DIST_DIR, 'theme-sfgov.css'))
+  await cp(join(EXTENSION_DIR, 'icons'), join(DIST_DIR, 'icons'), { recursive: true })
   await writeFile(join(DIST_DIR, 'build-info.json'), JSON.stringify(info, null, 2))
 
   const manifest = JSON.parse(
