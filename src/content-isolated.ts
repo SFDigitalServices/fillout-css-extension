@@ -57,8 +57,12 @@ async function init() {
 
 async function refreshCss() {
   const current = beginReload()
-  const css = await send<CssResponse>({ type: 'get-css' })
+  const [state, css] = await Promise.all([
+    send<StateResponse>({ type: 'get-state' }),
+    send<CssResponse>({ type: 'get-css' }),
+  ])
   if (current !== epoch) return
+  config.enabled = state.enabled
   applyCss(css)
   sendConfig()
   render()
