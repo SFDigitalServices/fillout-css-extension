@@ -17,11 +17,11 @@ export type TabMessage = { type: 'enabled', enabled: boolean }
  */
 export const EVENTS = {
   /** MAIN -> ISOLATED: MAIN script is listening, send the config */
-  hello: 'sfgov-fillout:hello',
+  hello: 'fillout-css:hello',
   /** ISOLATED -> MAIN: detail is a JSON-encoded {@link Config} */
-  config: 'sfgov-fillout:config',
+  config: 'fillout-css:config',
   /** MAIN -> ISOLATED: detail is a {@link MainStatus} */
-  status: 'sfgov-fillout:status',
+  status: 'fillout-css:status',
 } as const
 
 export type Config = {
