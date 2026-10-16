@@ -20,6 +20,9 @@ let status: MainStatus | undefined
 let button: HTMLButtonElement | undefined
 let liveReload = false
 let pollTimer: ReturnType<typeof setTimeout> | undefined
+// Bumped whenever settings are (re)loaded; responses from an older epoch are stale.
+// sendMessage can't be aborted, so stale responses are dropped instead.
+let epoch = 0
 
 document.addEventListener(EVENTS.hello, sendConfig)
 document.addEventListener(EVENTS.status, (event) => {
@@ -40,10 +43,12 @@ chrome.storage.onChanged.addListener((_changes, area) => {
 void init()
 
 async function init() {
+  const current = beginReload()
   const [state, css] = await Promise.all([
     send<StateResponse>({ type: 'get-state' }),
     send<CssResponse>({ type: 'get-css' }),
   ])
+  if (current !== epoch) return
   config.enabled = state.enabled
   applyCss(css)
   sendConfig()
@@ -51,9 +56,18 @@ async function init() {
 }
 
 async function refreshCss() {
-  applyCss(await send<CssResponse>({ type: 'get-css' }))
+  const current = beginReload()
+  const css = await send<CssResponse>({ type: 'get-css' })
+  if (current !== epoch) return
+  applyCss(css)
   sendConfig()
   render()
+}
+
+// Invalidates in-flight requests and pending polls; the caller reschedules via applyCss.
+function beginReload() {
+  clearTimeout(pollTimer)
+  return ++epoch
 }
 
 function applyCss(css: CssResponse) {
@@ -78,9 +92,11 @@ function schedulePoll() {
 
 async function poll() {
   if (status === 'ready' && config.enabled && !document.hidden) {
+    const current = epoch
     // rejects once the extension is reloaded and this script is orphaned
     const css = await send<CssResponse>({ type: 'get-css' }).catch((): undefined => undefined)
-    if (!css) return
+    // a newer reload owns scheduling, so don't apply or reschedule
+    if (!css || current !== epoch) return
     // a failed read (e.g. mid-save) keeps the last good CSS
     if ('css' in css && css.css !== config.css) {
       config.css = css.css
