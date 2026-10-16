@@ -66,7 +66,7 @@ function applyCss(css: CssResponse) {
     config.css = null
     cssError = css.error
     liveReload = false
-    console.error('[sfgov-fillout] %s', css.error)
+    console.error('[fillout-css] %s', css.error)
   }
   schedulePoll()
 }
