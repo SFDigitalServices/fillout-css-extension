@@ -11,6 +11,8 @@ import {
 const form = byId<HTMLFormElement>('form')
 const localPath = byId<HTMLInputElement>('local-path')
 const cssUrl = byId<HTMLInputElement>('css-url')
+const liveReload = byId<HTMLInputElement>('live-reload')
+const liveReloadOption = byId('live-reload-option')
 const statusEl = byId('status')
 const fileWarning = byId('file-warning')
 const radios = Array.from(form.querySelectorAll<HTMLInputElement>('input[name="source"]'))
@@ -21,6 +23,7 @@ async function init() {
   const settings = await loadSettings()
   localPath.value = settings.localPath
   cssUrl.value = settings.url
+  liveReload.checked = settings.liveReload
   selectedRadio(settings.source).checked = true
   syncInputs()
   radios.forEach(radio => radio.addEventListener('change', syncInputs))
@@ -52,6 +55,7 @@ function syncInputs() {
   const source = currentSource()
   localPath.disabled = source !== 'local'
   cssUrl.disabled = source !== 'url'
+  liveReloadOption.hidden = source !== 'local'
 }
 
 async function save() {
@@ -71,8 +75,9 @@ async function save() {
       source,
       localPath: localPath.value.trim(),
       url: cssUrl.value.trim(),
+      liveReload: liveReload.checked,
     })
-    showStatus('Saved. Reload Fillout pages to apply.')
+    showStatus('Saved.')
   }
   catch (error) {
     showStatus(error instanceof Error ? error.message : String(error), true)

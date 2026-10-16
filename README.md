@@ -28,7 +28,10 @@ Open the extension's **Options** to choose the **CSS source**:
 - **URL**: an `https://` URL (or `http://localhost`). Saving prompts you to allow
   the extension to fetch from that host.
 
-The CSS is loaded when the page loads; reload the form to pick up changes.
+The CSS is loaded when the page loads. For **Local CSS**, tick **Live reload when
+the file changes** to re-read the file about once a second and apply edits without
+reloading the form. Polling pauses while the tab is hidden or the toggle is on
+"default". Saving the options applies to open forms without a reload.
 
 ## Toggle
 

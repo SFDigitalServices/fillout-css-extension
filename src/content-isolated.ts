@@ -12,10 +12,14 @@ import {
   type TabMessage,
 } from './shared/protocol'
 
+const POLL_INTERVAL_MS = 1000
+
 const config: Config = { css: null, enabled: false }
 let cssError: string | undefined
 let status: MainStatus | undefined
 let button: HTMLButtonElement | undefined
+let liveReload = false
+let pollTimer: ReturnType<typeof setTimeout> | undefined
 
 document.addEventListener(EVENTS.hello, sendConfig)
 document.addEventListener(EVENTS.status, (event) => {
@@ -29,6 +33,9 @@ chrome.runtime.onMessage.addListener((message: TabMessage) => {
     render()
   }
 })
+chrome.storage.onChanged.addListener((_changes, area) => {
+  if (area === 'local') void refreshCss()
+})
 
 void init()
 
@@ -38,15 +45,51 @@ async function init() {
     send<CssResponse>({ type: 'get-css' }),
   ])
   config.enabled = state.enabled
-  if ('css' in css) {
-    config.css = css.css
-  }
-  else {
-    cssError = css.error
-    console.error('[sfgov-fillout] %s', css.error)
-  }
+  applyCss(css)
   sendConfig()
   render()
+}
+
+async function refreshCss() {
+  applyCss(await send<CssResponse>({ type: 'get-css' }))
+  sendConfig()
+  render()
+}
+
+function applyCss(css: CssResponse) {
+  if ('css' in css) {
+    config.css = css.css
+    cssError = undefined
+    liveReload = css.liveReload
+  }
+  else {
+    config.css = null
+    cssError = css.error
+    liveReload = false
+    console.error('[sfgov-fillout] %s', css.error)
+  }
+  schedulePoll()
+}
+
+function schedulePoll() {
+  clearTimeout(pollTimer)
+  if (liveReload) pollTimer = setTimeout(() => void poll(), POLL_INTERVAL_MS)
+}
+
+async function poll() {
+  if (status === 'ready' && config.enabled && !document.hidden) {
+    // rejects once the extension is reloaded and this script is orphaned
+    const css = await send<CssResponse>({ type: 'get-css' }).catch((): undefined => undefined)
+    if (!css) return
+    // a failed read (e.g. mid-save) keeps the last good CSS
+    if ('css' in css && css.css !== config.css) {
+      config.css = css.css
+      cssError = undefined
+      sendConfig()
+      render()
+    }
+  }
+  schedulePoll()
 }
 
 function send<T>(message: BackgroundRequest) {

@@ -23,6 +23,12 @@
         gap: 8px;
         margin: 12px 0;
       }
+      .option[hidden] {
+        display: none;
+      }
+      .option.nested {
+        margin-left: 24px;
+      }
       .option input[type="text"],
       .option input[type="url"] {
         flex: 1;
@@ -58,6 +64,10 @@
             placeholder="/Users/you/work/forms/fillout/theme-sfgov.css"
             spellcheck="false"
           />
+        </label>
+        <label id="live-reload-option" class="option nested" hidden>
+          <input type="checkbox" id="live-reload" />
+          <span>Live reload when the file changes</span>
         </label>
         <p id="file-warning" class="warning" hidden>
           Enable "Allow access to file URLs" for this extension on

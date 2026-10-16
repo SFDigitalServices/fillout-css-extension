@@ -4,7 +4,7 @@ export type BackgroundRequest
     | { type: 'get-state' }
     | { type: 'toggle' }
 
-export type CssResponse = { css: string } | { error: string }
+export type CssResponse = { css: string, liveReload: boolean } | { error: string }
 
 export type StateResponse = { enabled: boolean }
 
