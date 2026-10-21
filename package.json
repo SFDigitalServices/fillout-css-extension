@@ -1,5 +1,6 @@
 {
   "private": true,
+  "version": "1.0.0",
   "scripts": {
     "build": "scripts/build.ts",
     "bundle": "cd dist && zip -r chrome-fillout-css.zip *",

@@ -61,7 +61,12 @@ async function main() {
 function getBuildInfo(version: string): BuildInfo {
   const sha = process.env.GITHUB_SHA || git('rev-parse', 'HEAD')
   const dirty = git('status', '--porcelain') !== ''
-  return { version, sha, repo: REPO, dirty }
+  return {
+    version: version || '0.0.0',
+    sha,
+    repo: REPO,
+    dirty
+  }
 }
 
 function git(...args: string[]) {
