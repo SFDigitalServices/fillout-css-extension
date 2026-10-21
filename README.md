@@ -7,18 +7,53 @@ the Fillout theme. It runs in every frame on `digital.forms.sf.gov` and
 
 ## Install
 
+### Download
+
+Zip archives of the extension are built in both pull requests and on every merge
+to the `main` branch by GitHub Actions (specifically, in
+[.github/workflows/ci.yml](./.github/workflows/ci.yml)). To find the build:
+
+- Navigate to a successful run in the [Actions
+tab](https://github.com/SFDigitalServices/fillout-css-extension/actions) on GitHub
+- Click on the "ci" job
+- Expand the "Run actions/upload-artifact" step
+- Click the URL after "Artifact download URL:" to download the zip archive
+- Unzip it by opening in the Finder (it should be called
+  `chrome-fillout-css.zip` in your `Downloads` folder)
+
+### Enable
+
+- Visit [chrome://extensions] in Chrome
+- Enable **Developer mode**
+- Click **Load unpacked**
+- Select the extension directory in the prompt
+
+### Develop
+
+Working on the extension requires installing Node, npm dependencies, then
+running the `build` or `watch` scripts. To build once:
+
 ```sh
 npm install
-npm run build -w @sfgov/fillout
+npm run build
 ```
 
-Then open `chrome://extensions`, enable **Developer mode**, click **Load unpacked**,
-and select `fillout/extension/dist`. Rebuild and click reload on the extension to
-pick up changes to the selected [CSS source](#css-source).
+Then [enable the extension](#enable), but select the `dist` directory in this
+repo instead of the unzipped archive.
+
+You can run `npm run watch` to automatically build the extension whenever source files change, but keep in mind that:
+
+> [!INFO]
+> Every time you build the extension, you will need to click the reload button
+> (<kbd>↻</kbd>) in the bottom right corner of the extension in
+> [chrome://extensions] to see the changes. You may also need to refresh any
+> open form pages because the extension context is invalidated whenever you
+> install a new build.
 
 ## CSS source
 
-Open the extension's **Options** to choose the **CSS source**:
+Open the extension's **Options** (by right-clicking the extension icon) to
+choose the **CSS source**:
 
 - **URL**: an `https://` URL (or `http://localhost`). Saving prompts you to
   allow the extension to fetch from that host. The default is the latest version
@@ -48,3 +83,5 @@ that store through React's fiber tree and dispatches `theme/setTheme` with the
 new CSS, and Fillout's own styled-components re-render it. This relies on
 Fillout's internals, so the button shows `CSS: unsupported` if the store can't
 be found.
+
+[chrome://extensions]: chrome://extensions

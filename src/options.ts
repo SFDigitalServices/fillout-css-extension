@@ -1,4 +1,3 @@
-import { buildUrl, type BuildInfo } from './shared/build-info'
 import {
   loadSettings,
   originPattern,
