@@ -52,9 +52,6 @@ async function fetchCss(): Promise<CssResponse> {
   let url: string
 
   switch (settings.source) {
-    case 'bundled':
-      url = chrome.runtime.getURL('theme-sfgov.css')
-      break
     case 'local':
       if (!(await chrome.extension.isAllowedFileSchemeAccess())) {
         throw new Error('Enable "Allow access to file URLs" for this extension in chrome://extensions')

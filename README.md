@@ -14,19 +14,20 @@ npm run build -w @sfgov/fillout
 
 Then open `chrome://extensions`, enable **Developer mode**, click **Load unpacked**,
 and select `fillout/extension/dist`. Rebuild and click reload on the extension to
-pick up changes to the bundled CSS (`fillout/theme-sfgov.css`) or the code.
+pick up changes to the selected [CSS source](#css-source).
 
 ## CSS source
 
 Open the extension's **Options** to choose the **CSS source**:
 
-- **Bundled CSS**: the `theme-sfgov.css` copied into the extension at build time.
-  The label links to the commit that last changed it. This is the default.
+- **URL**: an `https://` URL (or `http://localhost`). Saving prompts you to
+  allow the extension to fetch from that host. The default is the latest version
+  of the CSS from the
+  [@sfgov/fillout](https://www.npmjs.com/package/@sfgov/fillout) npm package.
+
 - **Local CSS**: an absolute path to a CSS file. Chrome only lets extensions read
   local files if you turn on **Allow access to file URLs** for this extension on
   `chrome://extensions`.
-- **URL**: an `https://` URL (or `http://localhost`). Saving prompts you to allow
-  the extension to fetch from that host.
 
 The CSS is loaded when the page loads. For **Local CSS**, tick **Live reload when
 the file changes** to re-read the file about once a second and apply edits without
@@ -35,14 +36,15 @@ reloading the form. Polling pauses while the tab is hidden or the toggle is on
 
 ## Toggle
 
-On a form, a small button in the bottom right corner shows `SF CSS: custom` or
-`SF CSS: default`. Clicking it switches between your CSS and the form's original
-CSS for that tab (all frames in the tab switch together). Form state is kept.
+On a form, a small button in the bottom right corner shows `CSS: custom` or
+`CSS: default`. Clicking it switches between your CSS and the form's original
+CSS for that tab (all frames in the tab switch together). Form state is
+preserved, so you can see changes to the exact state your form is in.
 
 ## How it works
 
 The theme's `customCSS` lives in Fillout's Redux store. `content-main.ts` finds
 that store through React's fiber tree and dispatches `theme/setTheme` with the
 new CSS, and Fillout's own styled-components re-render it. This relies on
-Fillout's internals, so the button shows `SF CSS: unsupported` if the store can't
+Fillout's internals, so the button shows `CSS: unsupported` if the store can't
 be found.

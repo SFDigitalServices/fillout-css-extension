@@ -1,4 +1,4 @@
-export type CssSource = 'bundled' | 'local' | 'url'
+export type CssSource = 'url' | 'local'
 
 export type Settings = {
   source: CssSource
@@ -9,10 +9,10 @@ export type Settings = {
 }
 
 const DEFAULT_SETTINGS: Settings = {
-  source: 'bundled',
+  source: 'url',
   localPath: '',
-  url: '',
-  liveReload: false,
+  url: 'https://cdn.jsdelivr.net/npm/@sfgov/fillout/dist/theme-sfgov.css',
+  liveReload: false
 }
 
 export async function loadSettings(): Promise<Settings> {
@@ -29,7 +29,7 @@ export function toFileUrl(path: string): string {
   const trimmed = path.trim()
   const windows = /^[A-Za-z]:[\\/]/.test(trimmed)
   if (!windows && !trimmed.startsWith('/')) {
-    throw new Error('Local CSS path must be absolute (e.g. /Users/you/forms/fillout/theme-sfgov.css)')
+    throw new Error('Local CSS path must be absolute (e.g. /Users/your.name/forms/fillout/theme-sfgov.css)')
   }
   const segments = trimmed.replace(/\\/g, '/').split('/')
   return `file://${windows ? '/' : ''}${segments.map((segment, i) =>

@@ -33,22 +33,6 @@ async function init() {
   })
 
   fileWarning.hidden = await chrome.extension.isAllowedFileSchemeAccess()
-  await renderBundledLabel()
-}
-
-async function renderBundledLabel() {
-  const response = await fetch(chrome.runtime.getURL('build-info.json'))
-  const info = await response.json() as BuildInfo
-  const link = document.createElement('a')
-  link.href = buildUrl(info)
-  link.target = '_blank'
-  link.rel = 'noopener'
-  link.textContent = info.sha.slice(0, 7)
-  byId('bundled-label').replaceChildren(
-    `Bundled CSS (version ${info.version} at `,
-    link,
-    info.dirty ? ', with local changes)' : ')',
-  )
 }
 
 function syncInputs() {
@@ -90,7 +74,7 @@ function showStatus(message: string, isError = false) {
 }
 
 function currentSource(): CssSource {
-  return (radios.find(radio => radio.checked)?.value ?? 'bundled') as CssSource
+  return (radios.find(radio => radio.checked)?.value ?? 'url') as CssSource
 }
 
 function selectedRadio(source: CssSource) {
