@@ -3,6 +3,7 @@
   "scripts": {
     "build": "scripts/build.ts",
     "bundle": "cd dist && zip -r chrome-fillout-css.zip *",
+    "lint": "eslint",
     "test": "jest",
     "watch": "nodemon -w src --ext 'css,js*,ts*,html' --exec 'npm run build'"
   },
