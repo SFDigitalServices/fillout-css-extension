@@ -1,4 +1,4 @@
-import { cssTreeUrl, type BuildInfo } from './shared/build-info'
+import { buildUrl, type BuildInfo } from './shared/build-info'
 import {
   loadSettings,
   originPattern,
@@ -40,7 +40,7 @@ async function renderBundledLabel() {
   const response = await fetch(chrome.runtime.getURL('build-info.json'))
   const info = await response.json() as BuildInfo
   const link = document.createElement('a')
-  link.href = cssTreeUrl(info)
+  link.href = buildUrl(info)
   link.target = '_blank'
   link.rel = 'noopener'
   link.textContent = info.sha.slice(0, 7)
