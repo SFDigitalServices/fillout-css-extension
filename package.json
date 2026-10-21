@@ -1,11 +1,13 @@
 {
-  "name": "@sfgov/fillout",
-  "version": "0.1.0",
+  "private": true,
   "scripts": {
     "build": "scripts/build.ts",
     "bundle": "cd dist && zip -r chrome-fillout-css.zip *",
     "test": "jest",
     "watch": "nodemon -w src --ext 'css,js*,ts*,html' --exec 'npm run build'"
+  },
+  "engines": {
+    "node": ">=24"
   },
   "dependencies": {
     "@babel/preset-env": "^7.29.7",
