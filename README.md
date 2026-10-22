@@ -1,7 +1,7 @@
 # Fillout CSS extension
 
-A Chrome extension (Manifest V3) that hot-swaps the custom CSS of Fillout forms
-with a stylesheet from one of three sources, so you can test CSS without editing
+A Chrome extension (Manifest V3) that hot-swaps the [custom CSS] of [Fillout forms]
+with a stylesheet from your computer or a URL, so you can test CSS without editing
 the Fillout theme. It runs in every frame on `digital.forms.sf.gov` and
 `forms.fillout.com`, including forms embedded on sf.gov in an iframe.
 
@@ -85,3 +85,5 @@ Fillout's internals, so the button shows `CSS: unsupported` if the store can't
 be found.
 
 [chrome://extensions]: chrome://extensions
+[custom css]: https://www.fillout.com/help/custom-css
+[fillout forms]: https://www.fillout.com/help/fillout

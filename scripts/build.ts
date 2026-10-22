@@ -59,9 +59,17 @@ async function main() {
 }
 
 function getBuildInfo(version: string): BuildInfo {
+  if (!version) {
+    throw new Error(`version must be provided (got ${JSON.stringify(version)})`)
+  }
   const sha = process.env.GITHUB_SHA || git('rev-parse', 'HEAD')
   const dirty = git('status', '--porcelain') !== ''
-  return { version, sha, repo: REPO, dirty }
+  return {
+    version,
+    sha,
+    repo: REPO,
+    dirty
+  }
 }
 
 function git(...args: string[]) {
